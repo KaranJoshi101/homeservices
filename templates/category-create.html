@@ -1,0 +1,52 @@
+{%extends "base.html"%}
+    {%block content%}
+    {%if category%}
+    <form action="/{{category.id}}/category/modify" method="post" enctype="multipart/form-data">
+      
+      <h3 class="mt-3 mb-3 text-center">Modify the Category</h3>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Category Name</label>
+          <input type="text" class="form-control" id="exampleInputEmail1" placeholder="{{category.name}}" aria-describedby="emailHelp" name="name">
+        </div>
+          <div class="mb-3">
+            <label for="inputGroupFile02" class="form-label">Logo</label>
+            <input type="file" class="form-control" id="inputGroupFile02" placeholder="{{category.logo}}" name="logo">
+          </div>
+          <div style="color:red;">
+            {%for msg in get_flashed_messages()%}
+            {{msg}}
+          {%endfor%}
+          </div>
+          
+        <div class="mb-3 text-center">
+            <button type="submit" class="btn btn-success">Save</button>
+      
+            <a type="button" class="btn btn-danger" href="/admin/dashboard">Cancel</a>
+        </div>
+      {%else%}
+      <form action="/category/create" method="post" enctype="multipart/form-data">
+        <h3 class="mt-3 mb-3 text-center">Add a Category</h3>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Category Name</label>
+          <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="name" required>
+        </div>
+          <div class="mb-3">
+            <label for="inputGroupFile02" class="form-label">Logo</label>
+            <input type="file" class="form-control" id="inputGroupFile02" name="logo">
+          </div>
+          <div style="color:red;">
+            {%for msg in get_flashed_messages()%}
+            {{msg}}
+          {%endfor%}
+          </div>
+          
+        <div class="mb-3 text-center">
+            <button type="submit" class="btn btn-success">Add</button>
+      
+            <a type="button" class="btn btn-danger" href="/admin/dashboard">Cancel</a>
+        </div>
+        
+    
+      {%endif%}
+      </form>
+    {%endblock%}

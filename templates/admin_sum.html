@@ -1,0 +1,43 @@
+{%extends "admin.html"%}
+{%block content%}
+        <div id="ratings" style="display: none;">
+            {%for i in d%}
+            <p id="{{i}}-star">{{d[i]}}</p>
+            {%endfor%}
+        </div>
+        <div id="requests" style="display: none;">
+            {%for i in e%}
+            <p id="{{i}}">{{e[i]}}</p>
+            {%endfor%}
+        </div>
+        <div id="professionals" style="display: none;">
+            {%for i in f%}
+            <p id="{{i}}">{{f[i]}}</p>
+            {%endfor%}
+        </div>
+<h2 class="text-center pt-3">Database Statistics</h2>
+<div class="d-flex justify-content-around">
+    <div class="pt-5 px-2 text-center" >
+    
+        <canvas class="pb-3" id="rtx" style="width:25rem;height:25rem;"></canvas>
+        <h5 >Customer Ratings</h5>
+    </div>
+    
+    <div class="pt-5 px-2 text-center" >
+        
+        <canvas class="pb-3" id="rqx" style="width:25rem;height:25rem;"></canvas>
+        <h5 >Requests</h5>
+    </div>
+    
+    <div class="pt-5 px-2 text-center">
+    
+        <canvas class="pb-3" id="stx" style="width:25rem;height:25rem;"></canvas>
+        <h5 >Professionals</h5>
+    </div>
+
+</div>
+    
+
+
+<script src="/static/adm_sum.js"></script>
+{%endblock%}

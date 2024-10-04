@@ -1,0 +1,16 @@
+body{
+    margin:0px;
+    padding:0px;
+}
+.container{
+    
+    padding-left: 150rem;
+    padding-right: 5rem;
+    border-radius: 1rem;
+}
+h1{
+    text-align:center;color:#2876b3; font-weight: bold;
+}
+.inputs{
+    margin-bottom:1.5rem; padding-left:3rem;padding-right:3rem;
+}
