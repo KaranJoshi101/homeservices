@@ -1,43 +1,47 @@
-const ratings=document.querySelector('#ratings');
-const rtx=document.querySelector('#rtx');
 class n{
-    constructor(rating,freq){
-      this.rating=rating;
-      this.freq=freq;
-    }
-}
-
-let rec=[];
-for(let i=0;i<ratings.children.length;i++){
-    rec.push(new n(ratings.children[i].id,ratings.children[i].innerText));
-}
-
-let xValues=[];
-let yValues=[];
-for(let i of rec){
-    xValues.push(i.rating);
-    yValues.push(i.freq);
-}
-
-
-var barColors=["#06C","#C9190B","#EF9234","#4CB140","#009596","#5752D1","#F4C145","#EC7A08","#7D1007","#B8BBBE"].slice(0,xValues.length);
-new Chart("rtx", {
-type: "doughnut",
-data: {
-  labels: xValues,
-  datasets: [{
-    backgroundColor: barColors,
-    data: yValues
-  }]
-},
-options: {
-  title: {
-    display: true,
-    responsive: false,
-    maintainAspectRatio: true
+  constructor(rating,freq){
+    this.rating=rating;
+    this.freq=freq;
   }
 }
-});
+const ratings=document.querySelector('#ratings');
+if(ratings){
+  const rtx=document.querySelector('#rtx');
+  
+  
+  let rec=[];
+  for(let i=0;i<ratings.children.length;i++){
+      rec.push(new n(ratings.children[i].id,ratings.children[i].innerText));
+  }
+  
+  let xValues=[];
+  let yValues=[];
+  for(let i of rec){
+      xValues.push(i.rating);
+      yValues.push(i.freq);
+  }
+  
+  
+  var barColors=["#06C","#C9190B","#EF9234","#4CB140","#009596","#5752D1","#F4C145","#EC7A08","#7D1007","#B8BBBE"].slice(0,xValues.length);
+  new Chart("rtx", {
+  type: "doughnut",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    title: {
+      display: true,
+      responsive: false,
+      maintainAspectRatio: true
+    }
+  }
+  });
+  
+}
 
 const requests=document.querySelector('#requests');
 const rqx=document.querySelector('#rqx');
@@ -78,7 +82,9 @@ options: {
 });
 
 const professionals=document.querySelector('#professionals');
-const stx=document.querySelector('#stx');
+if(professionals){
+  const stx=document.querySelector('#stx');
+
 
 
 rec=[];
@@ -113,3 +119,5 @@ options: {
 }
 });
 
+
+}

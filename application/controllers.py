@@ -265,7 +265,7 @@ def adminSummary():
     e={"Requested":0,"Accepted":0,"Closed":0,"Total":len(requests)}
     for i in requests:
         if i.status=='Accepted':
-            e['Acceptee']+=1
+            e['Accepted']+=1
         elif i.status=="Closed":
             e['Closed']+=1
         elif i.status=='Requested':
@@ -294,7 +294,7 @@ def userDashboard(userId):
 @app.route('/<userId>/<sId>/book')
 def bookService(userId,sId):
     import datetime
-    r=Request(userId=userId,sId=sId,d_req=datetime.datetime.now())
+    r=Request(id=idGen(),userId=userId,sId=sId,d_req=datetime.datetime.now())
     db.session.add(r)
     db.session.commit()
     return redirect(f'/{userId}/dashboard')
@@ -323,6 +323,20 @@ def closeService(userId,rId):
         db.session.commit()
         return redirect(f'/{userId}/dashboard')
 
+@app.route('/<userId>/summary')
+def userSummary(userId):
+    requests=[i for i in Request.query.all() if i.rating and i.userId==userId]
+    e={"Requested":0,"Accepted":0,"Closed":0,"Total":0}
+    for i in requests:
+        if i.status=='Accepted':
+            e['Accepted']+=1
+        elif i.status=="Closed":
+            e['Closed']+=1
+        elif i.status=='Requested':
+            e['Requested']+=1
+        e['Total']+=1
+    print(e)
+    return render_template('user_sum.html',user=User.query.get(userId),e=e)
 
 
 @app.route('/<string:proId>/professional/dashboard')
@@ -362,6 +376,31 @@ def rejectRequest(proId,rId):
     db.session.commit()
     return redirect(f'/{proId}/professional/dashboard')
 
+@app.route('/<proId>/summary')
+def proSummary(proId):
+    ratings=[i.rating for i in Request.query.all() if i.rating and i.proId==proId]
+    d={}
+    for i in ratings:
+        if i in d:
+            d[i]+=1
+        else:
+            d[i]=1
+    
+    requests=Request.query.all()
+    catId=Category.query.filter_by(name=Professional.query.get(proId).service).first().id
+    services=Service.query.filter_by(catId=catId).all()
+    
+    e={"Requested":0,"Accepted":0,"Closed":0,"Total":0}
+    for i in requests:
+        if(Service.query.get(i.sId) in services):
+            if i.status=='Accepted':
+                e['Accepted']+=1
+            elif i.status=="Closed":
+                e['Closed']+=1
+            elif i.status=='Requested':
+                e['Requested']+=1
+            e['Total']+=1
+    return render_template('pro_sum.html',pro=Professional.query.get(proId),d=d,e=e)
 
 
 
