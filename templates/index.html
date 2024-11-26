@@ -34,12 +34,12 @@
           </div>
         </div>
       </div>
-      <div class="mt-5 justify-content-around" id="categories">
+      <div class="mt-5 justify-content-around" id="Category">
         <h2 class="mb-3 text-center">Looking For?</h2>
         <div class="container border pt-3 pb-3 justify-content-around" style="display: flex; background-color: rgb(133, 128, 128); border-radius: 2rem;">
           {%for category in categories%}
             {%if category.count%}
-            <button class="card shadow-lg btn mr-2 catBtn" value="{{category.id}}" style="width: 10rem; height:10rem;border:2px solid black; border-radius: 2rem;">
+            <button class="card shadow-lg btn mr-2 servBtn" value="{{category.id}}" style="width: 10rem; height:10rem;border:2px solid black; border-radius: 2rem;">
                 <img src="/static/images/{{category.logo}}" class="card-img-top "  alt="{{category.id}}" style="width: 9rem;height: 9rem;border-radius: 2rem;object-fit: cover;">
             </button>  
             {%endif%}
@@ -54,13 +54,13 @@
 
 
       {%for category in categories%}
-      <div class="container table-responsive" id="{{category.id}}" style="display: none;">
+      <div class="container table-responsive" id="serv{{category.id}}" style="display: none;">
       <h3>{{category.name}}</h3>
       
         
         <div class="d-flex justify-content-between">
           <h4>Services</h4>
-          <button class="btn btn-primary back"><- Go Back</button>
+          <button class="btn btn-primary servback"><- Go Back</button>
         </div>
       <table class="table table-bordered table-hover">
         <thead>

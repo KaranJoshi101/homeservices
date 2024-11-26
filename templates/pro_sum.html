@@ -1,5 +1,14 @@
 {%extends "pro.html"%}
 {%block content%}
+<br><br>
+{%if pro.approval == 0%}
+     <div class="container"><h2>You are yet to be approved by Admin.</h2></div>
+     
+     {%elif pro.approval == -1%}
+     <div class="container"><h2>Sorry! You are either rejected or banned by the admin!</h2><a style="color:red" href="/{{pro.id}}/pro/delete">Delete Account?</a></div>
+     
+     
+     {%else%}
 <div id="ratings" style="display: none;">
     {%for i in d%}
     <p id="{{i}}-star">{{d[i]}}</p>
@@ -11,6 +20,11 @@
     {%endfor%}
 </div>
 <h2 class="text-center pt-3">{{pro.name}}'s Service Statistics</h2>
+<div class="container" style="color: blueviolet; font-family: 'Times New Roman', Times, serif;">
+    <h4>Total Customers: {{pro.nCustomers}}</h4>
+    <h4>Average Rating: {{pro.rating}}</h4>
+</div>
+
 <div class="d-flex justify-content-around">
     
     <div class="pt-5 px-2 text-center" >
@@ -19,5 +33,6 @@
         <h5 >Requests</h5>
     </div>
     </div>
+    {%endif%}
 <script src="/static/adm_sum.js"></script>
 {%endblock%}

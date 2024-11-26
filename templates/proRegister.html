@@ -3,7 +3,7 @@
     
     
     
-        <form action="/proRegister" method="post">
+        <form action="/proRegister" method="post" enctype="multipart/form-data">
             <h1 class="pt-3">Service Professional Signup</h1>
             <div class="inputs ">
             <label for="exampleInputEmail1" class="form-label">Email ID: </label>
@@ -19,9 +19,9 @@
             </div>
             <div class="form-group inputs">
                 <label for="exampleFormControlSelect1">Service Name:</label>
-                <select class="form-control" id="exampleFormControlSelect1" name="serv">
+                <select class="form-control" name="catId" id="exampleFormControlSelect1" >
                     {%for category in categories%}
-                    <option value="{{category.name}}">{{category.name}}</option>
+                    <option value="{{category.id}}">{{category.name}}</option>
                     {%endfor%}
                 </select>
             </div>
@@ -31,7 +31,7 @@
             </div>
             <div class="form-group inputs ">
                 <label for="exampleFormControlFile1">Attach Document(single pdf):</label>
-                <input type="file" class="form-control-file " name="file" id="exampleFormControlFile1">
+                <input type="file" class="form-control-file " name="file" id="exampleFormControlFile1" required>
             </div>
             <div class="inputs">
                 <label for="phone" class="form-label">Phone Number:</label>
@@ -45,6 +45,9 @@
                 <label for="pin" class="form-label">Pin Code:</label>
                 <input type="number" class="form-control" name="pin" required>
             </div>
+            {%for msg in get_flashed_messages()%}
+                <p style="color:red;">{{msg}}</p>
+            {%endfor%}
             <div class="inputs text-center pb-3">
                 <button type="submit" class="btn btn-primary text-center px-3">Register</button>
             

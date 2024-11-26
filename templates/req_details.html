@@ -1,0 +1,23 @@
+{%extends 'details.html' %}
+{%block content%}
+<div class="mt-5 d-flex justify-content-around">
+    <div></div>
+    <h1>Request Details</h1>
+    <div><a type="button" class="btn btn-primary" href="/admin/dashboard"><- Go Back</a></div>
+</div>
+
+<div class="container">
+    <ul>
+        <li>Id: {{request.id}}</li>
+        <li>Service : <a href="/{{service.id}}/service/details">{{service.name}}</a></li>
+        <li>Customer : <a href="/{{customer.id}}/customer/details">{{customer.name}}</a></li>
+        <li>Professional Assigned : {%if professional%}<a href="/{{professional.id}}/professional/details">{{professional.name}}</a>{%else%}N.A.{%endif%}</li>
+        <li>Date Requested : {{request.d_req.strftime("%d %b, %Y %I:%M %p")}}</li>
+        <li>Date Completed : {%if request.d_comp%}{{request.d_comp.strftime("%d %b, %Y %I:%M %p")}}{%else%}N.A.{%endif%}</li>
+        <li>Status : {{request.status}}</li>
+        <li>Rating : {{request.rating}}</li>
+        <li>Remarks : {{request.remarks}}</li>  
+    </ul>
+</div>
+
+{%endblock%}

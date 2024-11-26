@@ -1,0 +1,169 @@
+{%extends "admin.html"%}
+{%block content%}
+<div class="container pt-3 d-flex justify-content-end">
+    <h5 class="pt-1  pr-3">Search by : </h5>
+    
+        <select id="select" class="px-2" >
+            <option id="categories" value="Category" selected>Service Category</option>
+            <option id="services" value="Service">Service Name</option>
+            <option id="professionals" value="Professional">Professional</option>
+            <option id="customers" value="Customer">Customer</option>
+            <option id="requests" value="Request">Request Status</option>
+          </select>
+          <input class="mx-3 px-2"  type="search" placeholder="" aria-label="Search" id="search">
+    
+    
+</div>
+<div class="container table-responsive"  id="Category" style="display: none;">
+  <h4>Category</h4>
+  <table class="table table-bordered table-hover table-responsive">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Services Count</th>
+        <th scope="col">Professionals Count</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    {%for category in categories%}
+      <tr class="Category"  id="{{category.id}}{{category.name}}" >
+        <th scope="row"><a href="/{{category.id}}/category/details">{{category.id}}</a></th>
+        <td>{{category.name}}</td>
+        <td >{{category.count}}</td>
+        <td >{{category.proCount}}</td>
+        <td><a href="/{{category.id}}/category/modify">Modify</a> <a href="/{{category.id}}/category/remove" style="color:red">Remove</a></td>
+      </tr>
+    {%endfor%}
+    </tbody>
+  </table>
+
+</div>
+<div class="container table-responsive" id="Service" style="display: none;">
+  <h4>Service</h4>
+  <table class="table table-bordered table-hover table-responsive">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Time Required(in hrs)</th>
+        <th scope="col">Description</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      {%for service in services%}
+     
+        <tr class="Service" id="{{service.id}}{{service.name}}{{service.desc}}" >
+          <th scope="row"><a href="/{{service.id}}/service/details">{{service.id}}</a></th>
+          <td>{{service.name}}</td>
+          <td>{{service.price}}</td>
+          <td>{{service.t_req}}</td>
+          <td>{{service.desc}}</td>
+          <td><a href="/{{service.id}}/service/modify">Modify</a> <a href="/{{service.id}}/service/remove" style="color:red">Remove</a></td>
+        </tr>
+   
+        
+  
+    {%endfor%}
+    </tbody>
+  </table>
+</div>
+<div class="container table-responsive" id="Professional" style="display: none;">
+  <h4>Professional</h4>
+  <table class="table table-bordered table-hover table-responsive">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Service Category</th>
+        <th scope="col">Experience (in years)</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    {%for professional in professionals%}
+      <tr class="Professional" id="{{professional.id}}{{professional.name}}{{professional.catId}}" >
+        <th scope="row"><a href="/{{professional.id}}/professional/details">{{professional.id}}</a></th>
+        <td>{{professional.name}}</td>
+        <td>{{professional.catId}}</td>
+        <td>{{professional.experience}}</td>
+        <td>{%if professional.approval == 0%}To be Reviewed{%elif professional.approval==0%}Rejected{%elif professional.approval==-1%}Banned{%else%}Approved{%endif%}</td>
+        <td>{%if professional.approval == 0%}<a href="/{{professional.id}}/professional/approve">Approve</a> <a href="/{{professional.id}}/professional/reject" style="color:red">Reject</a>{%elif professional.approval ==1%}<a href="/{{professional.id}}/professional/ban" style="color:red">Ban</a>{%else%}<a href="/{{professional.id}}/professional/remove" style="color:red">Remove</a>{%endif%}</td>
+      </tr>
+    {%endfor%}
+    </tbody>
+  </table>
+</div>
+
+<div class="container table-responsive" id="Request" style="display: none;">
+  <h4>Service Requests</h4>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Assigned Professional</th>
+      <th scope="col">Customer Id</th>
+      <th scope="col">Date Requested</th>
+      <th scope="col">Date Completed</th>
+      <th scope="col">Rating</th>
+      <th scope="col">Remarks</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+  {%for request in requests%}
+    <tr class="Request" id="{{request.id}}{%if request.proId%}{{request.proId}}{%else%}N.A.{%endif%}{{request.d_req}}{%if request.d_comp%}{{request.d_comp.strftime("%d %b, %Y %I:%M %p")}}{%else%}_{%endif%}{{request.status}}">
+      <th scope="row"><a href="/{{request.id}}/request/details">{{request.id}}</a></th>
+      <th scope="row">{%if request.proId%}<a href="/{{request.proId}}/professional/details">{{request.proId}}</a>{%else%}N.A.{%endif%}</th>
+      <th scope="row">{%if request.userId%}<a href="/{{request.userId}}/customer/details">{{request.userId}}</a>{%else%}N.A.{%endif%}</th>
+      <td>{{request.d_req.strftime("%d %b, %Y %I:%M %p")}}</td>
+      <td>{%if request.d_comp%}{{request.d_comp.strftime("%d %b, %Y %I:%M %p")}}{%else%}_{%endif%}</td>
+      <td>{{request.rating}}</td>
+      <td>{{request.remarks}}</td>
+      <td>{{request.status}}</td>
+    </tr>
+  {%endfor%}
+  </tbody>
+</table>
+</div>
+
+<div class="container table-responsive" id="Customer" style="display: none;">
+  <h4>Customers</h4>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Address</th>
+      <th scope="col">Pincode</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Status</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  {%for customer in customers%}
+    <tr class="Customer" id="{{customer.id}}{{customer.name}}{{customer.address}}{{customer.pincode}}{{customer.phone}}">
+      <th scope="row"><a href="/{{customer.id}}/customer/details">{{customer.id}}</a></th>
+      <th scope="row">{{customer.name}}</th>
+      <td scope="row">{{customer.address}}</td>
+      <td scope="row">{{customer.pincode}}</td>
+      <td scope="row">{{customer.phone}}</td>
+      <td scope="row">{%if customer.status == 0%}Active{%else%}Banned{%endif%}</td>
+            <td scope="row">{%if customer.status == 0%} <a style="color:red" href="/{{customer.id}}/customer/ban" >Ban</a> {%else%}<a style="color:red" href="/{{customer.id}}/customer/remove" >Remove</a> {%endif%}</td>
+    </tr>
+  {%endfor%}
+  </tbody>
+</table>
+</div>
+<div class="container" id="msg" style="display: none;"><h3 >No records found</h3></div>
+
+<script src="/static/adm_search.js"></script>
+<script src="/static/adm_dash.js"></script>
+
+{%endblock%}

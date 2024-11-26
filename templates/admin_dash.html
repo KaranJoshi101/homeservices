@@ -1,6 +1,32 @@
 {%extends "admin.html"%}
 {%block content%}
-      <div class="container table-responsive mt-5" id="categories">
+{%if newpros|length%}
+<div class="container table-responsive mt-5" >
+  <h4>Professional Review</h4>
+  <table class="table  table-bordered table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Service Category</th>
+        <th scope="col">Details</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%for professional in newpros%}
+      <tr>
+        <td>{{professional.name}}</td>
+        <td>{{professional.catId}}</td>
+        <td><a href="/{{professional.id}}/professional/details" type="button" class="btn btn-info">Review</a></td>
+        <td><a href="/{{professional.id}}/professional/approve" style="color:green">Approve</a> <a href="/{{professional.id}}/professional/reject" style="color:red">Reject</a></td>
+      </tr>
+  
+  {%endfor%}
+  </tbody>
+  </table>
+  </div>
+  {%endif%}
+      <div class="container table-responsive mt-5" id="Category">
         <h4>Categories</h4>
       {%if categories|length%}
       <table class="table  table-bordered table-hover">
@@ -9,6 +35,7 @@
             <th scope="col">ID</th>
             <th scope="col">Name</th>
             <th scope="col">Services Count</th>
+            <th scope="col">Professionals Count</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
@@ -17,7 +44,8 @@
           <tr>
             <th scope="row"><a href="/{{category.id}}/category/details">{{category.id}}</a></th>
             <td>{{category.name}}</td>
-            <td ><button class="btn btn-primary catBtn" value="{{category.id}}">{{category.count}}</button></td>
+            <td ><button class="btn btn-primary servBtn" value="{{category.id}}">{{category.count}}</button></td>
+            <td ><button class="btn btn-primary proBtn" value="{{category.id}}">{{category.proCount}}</button></td>
             <td><a href="/{{category.id}}/category/modify">Modify</a> <a href="/{{category.id}}/category/remove" style="color:red">Remove</a></td>
           </tr>
         {%endfor%}
@@ -30,11 +58,11 @@
       </div>
       
       {%for category in categories%}
-      <div class="container table-responsive mt-5" id="{{category.id}}" style="display: none;">
-      <h3>{{category.name}}</h3>
+      <div class="container table-responsive mt-5" id="serv{{category.id}}" style="display: none;">
+      <h4>{{category.name}}</h4>
         <div class="d-flex justify-content-between">
-          <h4>Services</h4>
-        <span class="text-end"><button class="btn btn-primary back"><- Go Back</button></span>
+          <h5>Services</h5>
+        <span class="text-end"><button class="btn btn-primary servback"><- Go Back</button></span>
         </div>
         
         {%if category.count%}
@@ -78,35 +106,83 @@
 
 
 
-
-      <div class="container table-responsive mt-5">
-        <h4>Professionals</h4>
+      {%for category in categories%}
+      <div class="container table-responsive mt-5" id="pro{{category.id}}" style="display: none;">
+        <h4>{{category.name}}</h4>
+        <div class="d-flex justify-content-between">
+          <h5>Professionals</h5>
+        <span class="text-end"><button class="btn btn-primary proback"><- Go Back</button></span>
+        </div>
+        {%if category.proCount%}
       <table class="table  table-bordered table-hover">
         <thead>
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Name</th>
-            <th scope="col">Service</th>
-            <th scope="col">Experience</th>
+            
+            <th scope="col">Experience (in years)</th>
+            <th scope="col">Total Customers</th>
+            <th scope="col">Average Rating</th>
+            <th scope="col">Status</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
         {%for professional in professionals%}
+       
+            {%if professional.catId==category.id%}
           <tr>
             <th scope="row"><a href="/{{professional.id}}/professional/details">{{professional.id}}</a></th>
             <td>{{professional.name}}</td>
-            <td>{{professional.service}} Rs</td>
             <td>{{professional.experience}}</td>
-            <td><a href="/{{professional.id}}/approve">Approve</a> <a href="/{{professional.id}}/reject" style="color:red">Reject</a></td>
+            <td>{{professional.nCustomers}}</td>
+            <td>{{professional.rating}}</td>
+            <td>{%if professional.approval == 0%}To be Reviewed{%elif professional.approval==0%}Rejected{%elif professional.approval==-1%}Banned{%else%}Approved{%endif%}</td>
+        <td>{%if professional.approval == 0%}<a href="/{{professional.id}}/professional/approve">Approve</a> <a href="/{{professional.id}}/professional/reject" style="color:red">Reject</a>{%elif professional.approval ==1%}<a href="/{{professional.id}}/professional/ban" style="color:red">Ban</a>{%else%}<a href="/{{professional.id}}/professional/remove" style="color:red">Remove</a>{%endif%}</td>
+          </tr>
+          {%endif%}
+        {%endfor%}
+        </tbody>
+      </table> 
+      {%else%}
+      <h5>Oops! No professionals added yet.</h5>
+      {%endif%} 
+      </div>
+      {%endfor%}
+         
+     
+
+      <div class="container table-responsive mt-5">
+        <h4>Customers</h4>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Address</th>
+            <th scope="col">Pincode</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        {%for customer in customers%}
+          <tr>
+            <th scope="row"><a href="/{{customer.id}}/customer/details">{{customer.id}}</a></th>
+            <th scope="row">{{customer.name}}</th>
+            <td scope="row">{{customer.email}}</td>
+            <td scope="row">{{customer.address}}</td>
+            <td scope="row">{{customer.pincode}}</td>
+            <td scope="row">{{customer.phone}}</td>
+            <td scope="row">{%if customer.status == 0%}Active{%else%}Banned{%endif%}</td>
+            <td scope="row">{%if customer.status == 0%} <a style="color:red" href="/{{customer.id}}/customer/ban" >Ban</a> {%else%}<a style="color:red" href="/{{customer.id}}/customer/remove" >Remove</a> {%endif%}</td>
           </tr>
         {%endfor%}
         </tbody>
-      </table>  
+      </table>
       </div>
-         
-      <br><br> 
-
 
       <div class="container table-responsive mt-5">
         <h4>Service Requests</h4>
@@ -115,16 +191,24 @@
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Assigned Professional</th>
-            <th scope="col">Requested Date</th>
-            <th scope="col">Status</th>
+            <th scope="col">Customer Id</th>
+                <th scope="col">Date Requested</th>
+                <th scope="col">Date Completed</th>
+                <th scope="col">Rating</th>
+                <th scope="col">Remarks</th>
+                <th scope="col">Status</th>
           </tr>
         </thead>
         <tbody>
         {%for request in requests%}
           <tr>
             <th scope="row"><a href="/{{request.id}}/request/details">{{request.id}}</a></th>
-            <th scope="row"><a href="/{{request.proId}}/professional/details">{{request.proId}}</a></th>
-            <td>{{request.d_req}}</td>
+            <th scope="row">{%if request.proId%}<a href="/{{request.proId}}/professional/details">{{request.proId}}</a>{%else%}N.A.{%endif%}</th>
+            <th scope="row">{%if request.userId%}<a href="/{{request.userId}}/customer/details">{{request.userId}}</a>{%else%}N.A.{%endif%}</th>
+            <td>{{request.d_req.strftime("%d %b, %Y %I:%M %p")}}</td>
+            <td>{%if request.d_comp%}{{request.d_comp.strftime("%d %b, %Y %I:%M %p")}}{%else%}_{%endif%}</td>
+            <td>{{request.rating}}</td>
+            <td>{{request.remarks}}</td>
             <td>{{request.status}}</td>
           </tr>
         {%endfor%}

@@ -7,6 +7,7 @@ class User(db.Model):
     address=db.Column(db.String())
     pincode=db.Column(db.Integer)
     phone=db.Column(db.Integer)
+    status=db.Column(db.Integer,default=0)
     requests=db.relationship('Request',backref='user')
 
 class Professional(db.Model):
@@ -14,13 +15,15 @@ class Professional(db.Model):
     name=db.Column(db.String(),nullable=False)
     email=db.Column(db.String(),nullable=False,unique=True)
     password=db.Column(db.String(),nullable=False)
-    service=db.Column(db.String(),nullable=False)
+    catId=db.Column(db.String(),db.ForeignKey('category.id'),nullable=False)
     experience=db.Column(db.Integer)
     doc=db.Column(db.String(120))
     address=db.Column(db.String())
     phone=db.Column(db.Integer)
     pincode=db.Column(db.Integer)
-    rejectIds=db.Column(db.String(),default='')
+    approval=db.Column(db.Integer,default=0)
+    nCustomers=db.Column(db.Integer,default=0)
+    rating=db.Column(db.Float,default=0)
     requests=db.relationship('Request',backref='professional')
 
 class Service(db.Model):
@@ -29,7 +32,6 @@ class Service(db.Model):
     price=db.Column(db.String(),nullable=False)
     t_req=db.Column(db.Integer)
     desc=db.Column(db.String())
-    logo=db.Column(db.String(120))
     catId=db.Column(db.String(),db.ForeignKey('category.id'),nullable=False)
     requests=db.relationship('Request',backref='service')
 
@@ -49,5 +51,6 @@ class Request(db.Model):
     d_req=db.Column(db.DateTime)
     d_comp=db.Column(db.DateTime)
     status=db.Column(db.String(),default='Requested')
+    rejectIds=db.Column(db.String(),default='')
     rating=db.Column(db.String(3))
     remarks=db.Column(db.String())

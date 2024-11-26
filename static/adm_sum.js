@@ -44,6 +44,9 @@ if(ratings){
 }
 
 const requests=document.querySelector('#requests');
+if(requests){
+
+
 const rqx=document.querySelector('#rqx');
 rec=[];
 for(let i=0;i<requests.children.length;i++){
@@ -59,7 +62,7 @@ for(let i of rec){
 
 barColors=["#06C","#C9190B","#EF9234","#4CB140","#009596","#5752D1","#F4C145","#EC7A08","#7D1007","#B8BBBE"].slice(0,xValues.length);
 new Chart("rqx", {
-type: "bar",
+type: "doughnut",
 data: {
   labels: xValues,
   datasets: [{
@@ -80,6 +83,7 @@ options: {
 }
 }
 });
+}
 
 const professionals=document.querySelector('#professionals');
 if(professionals){
@@ -102,7 +106,7 @@ for(let i of rec){
 
 barColors=["#06C","#C9190B","#EF9234","#4CB140","#009596","#5752D1","#F4C145","#EC7A08","#7D1007","#B8BBBE"].slice(0,xValues.length);
 new Chart("stx", {
-type: "bar",
+type: "doughnut",
 data: {
   labels: xValues,
   datasets: [{

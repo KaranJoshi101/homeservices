@@ -1,0 +1,88 @@
+{%extends 'user.html'%}
+{%block content%}
+{%if user.status == -1%}
+      <div class="container"><h2>You have been banned by the Admin</h2><a href="/{{user.id}}/user/delete">Delete Account?</a></div>
+      {%else%}
+<div class="container pt-3 d-flex justify-content-end">
+    <h5 class="pt-1  pr-3">Search by : </h5>
+    
+        <select id="select" class="px-2" >
+            <option value="Service">Service</option>
+            <option value="History">History</option>
+          </select>
+          <input class="mx-3 px-2"  type="search" placeholder="" aria-label="Search" id="search">
+    
+    
+</div>
+
+
+    <div class="container table-responsive" id="History" style="display: none;">
+        <h4>History</h4>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Service</th>
+            <th scope="col">Assigned Professional</th>
+            <th scope="col">Date Requested</th>
+            <th scope="col">Date Completed</th>
+            <th scope="col">Status</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Remarks</th>
+          </tr>
+        </thead>
+        <tbody>
+        {%for request in requests%}
+          <tr class="History" id="{{request.id}}{{request.sId}}{%if request.proId%}{{request.proId}}{%else%}N.A.{%endif%}{{request.d_req.strftime('%d %b, %Y %I:%M %p')}}{%if request.d_comp%}{{request.d_comp.strftime('%d %b, %Y %I:%M %p')}}{%else%}{{request.d_comp}}{%endif%}{{request.status}}{{request.rating}}{{request.remarks}}">
+            <th class="id" scope="row"><a href="/{{request.id}}/request/details">{{request.id}}</a></th>
+            <td>{{request.sId}}</td>
+            <td>{%if request.proId%}<a href="/{{request.proId}}/professional/details">{{request.proId}}</a>{%else%}N.A.{%endif%}</td>
+            <td>{{request.d_req.strftime("%d %b, %Y %I:%M %p")}}</td>
+            <td>{%if request.d_comp%}{{request.d_comp.strftime("%d %b, %Y %I:%M %p")}}{%else%}{{request.d_comp}}{%endif%}</td>
+            <td>{{request.status}}</td>
+            <td>{{request.rating}}</td>
+            <td>{{request.remarks}}</td>
+          </tr>
+        {%endfor%}
+</tbody>
+</table>    
+
+
+</div>
+
+<div class="container table-responsive" id="Service">
+    <h4>Service</h4>
+    <table class="table table-bordered table-hover table-responsive">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Price</th>
+          <th scope="col">Time Required(in hrs)</th>
+          <th scope="col">Description</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        {%for service in services%}
+       
+          <tr class="Service" id="{{service.id}}{{service.name}}{{service.desc}}" >
+            <th scope="row">{{service.id}}</th>
+            <td>{{service.name}}</td>
+            <td>{{service.price}}</td>
+            <td>{{service.t_req}}</td>
+            <td>{{service.desc}}</td>
+            <td><a href="/{{user.id}}/{{service.id}}/book">Book</a></td>
+          </tr>
+     
+          
+    
+      {%endfor%}
+      </tbody>
+    </table>
+  </div>
+  <div class="container" id="msg" style="display: none;"><h3 >No records found</h3></div>
+  <script src="/static/user_search.js"></script>
+  {%endif%}
+{%endblock%}

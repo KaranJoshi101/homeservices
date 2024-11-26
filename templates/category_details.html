@@ -1,0 +1,19 @@
+{%extends 'details.html'%}
+{%block content%}
+<div class="mt-5 d-flex justify-content-around">
+    <div></div>
+    <h1>Category Details</h1>
+    <div><a type="button" class="btn btn-primary" href="/admin/dashboard"><- Go Back</a></div>
+</div>
+    
+    <div class="container"><img width="400px" height="400px" src="/static/images/{{category.logo}}" alt="logo"></div>
+    <div class="container">
+        <ul>
+            <li>Id: {{category.id}}</li>
+            <li>Name : {{category.name}}</li>
+            <li>Services Count: {{category.count}}</li>
+            <li>Professionals Count: {{category.proCount}}</li>
+        </ul>
+    </div>
+    
+{%endblock%}

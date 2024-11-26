@@ -1,6 +1,14 @@
      {%extends "pro.html"%}
      {%block content%}
      <br><br>
+     {%if pro.approval == 0%}
+     <div class="container"><h2>You are yet to be approved by Admin.</h2></div>
+     
+     {%elif pro.approval == -1%}
+     <div class="container"><h2>Sorry! You are either rejected or banned by the admin!</h2><a style="color:red" href="/{{pro.id}}/pro/delete">Delete Account?</a></div>
+     
+     
+     {%else%}
       <div class="container table-responsive" id="Requested Services ">
         <h2>Requested Services</h2>
         {%if reqcus|length%}
@@ -47,7 +55,8 @@
                 <th scope="col">Customer Name</th>
                 <th scope="col">Phone</th>
                 <th scope="col">Location</th>
-                <th scope="col">Date</th>
+                <th scope="col">Date Requested</th>
+                <th scope="col">Date Closed</th>
                 <th scope="col">Rating</th>
                 <th scope="col">Remarks</th>
                 <th scope="col">Status</th>
@@ -56,24 +65,25 @@
             </thead>
             <tbod>
             {%for request,service,customer in rcus%}
-              {%if request.status!='Requested' and request.proId==pro.id%}
               <tr>
                 <th scope="row">{{request.id}}</th>
                 <td>{{service.name}}</td>
-                <td>{{customer.name}}</td>
-                <td>{{customer.phone}}</td>
-                <td>{{customer.address}}</td>
-                <td>{{request.d_req.date()}}</td>
+                <td>{%if pro.id in request.rejectIds%}_{%else%}{%if customer%}{{customer.name}}{%else%}N.A.{%endif%}{%endif%}</td>
+                <td>{%if pro.id in request.rejectIds%}_{%else%}{%if customer%}{{customer.phone}}{%else%}N.A.{%endif%}{%endif%}</td>
+                <td>{%if pro.id in request.rejectIds%}_{%else%}{%if customer%}{{customer.address}}{%else%}N.A.{%endif%}{%endif%}</td>
+                <td>{{request.d_req}}</td>
                 {%if request.status=='Closed'%}
+                <td>{{request.d_comp}}</td>
                 <td>{{request.rating}}</td>
                 <td>{{request.remarks}}</td>
                 {%else%}
-                <td>NA</td>
-                <td>NA</td>
+                <td>_</td>
+                <td>_</td>
+                <td>_</td>
                 {%endif%}
-                <td>{{request.status}}</td>
+                <td>{%if pro.id in request.rejectIds%}Rejected{%else%}{{request.status}}{%endif%}</td>
               </tr>
-              {%endif%}
+            
             {%endfor%}
             </tbody>
           </table>
@@ -81,4 +91,5 @@
           <p>No service history. Don't Worry!</p>
           {%endif%}
       </div>
+      {%endif%}
       {%endblock%}

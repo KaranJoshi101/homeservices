@@ -1,0 +1,20 @@
+{%extends 'details.html' %}
+{%block content%}
+<div class="mt-5 d-flex justify-content-around">
+    <div></div>
+    <h1>Service Details</h1>
+    <div><a type="button" class="btn btn-primary" href="/admin/dashboard"><- Go Back</a></div>
+</div>
+
+<div class="container">
+    <ul>
+        <li>Id: {{service.id}}</li>
+        <li>Name : {{service.name}}</li>
+        <li>Service Category : {{category.name}}</li>
+        <li>Description : {{service.desc}}</li>
+        <li>Base Price : {{service.price}}</li>
+        <li>Time Required (in hours) : {{service.t_req}}</li>
+    </ul>
+</div>
+
+{%endblock%}

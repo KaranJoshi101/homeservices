@@ -5,13 +5,16 @@
     <form action="/login" method="post">
         <div class="inputs">
           <label for="exampleInputEmail1" class="form-label">Email : </label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" required>
           <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
         </div>
         <div class="inputs">
           <label for="exampleInputPassword1" class="form-label" >Password : </label>
-          <input type="password" class="form-control" id="exampleInputPassword1" name="pass">
+          <input type="password" class="form-control" id="exampleInputPassword1" name="pass" required>
         </div>
+        {%for msg in get_flashed_messages()%}
+        <p class="text-center" style="color:red;">{{msg}}</p>
+        {%endfor%}
         <div class="text-center">
           <button type="submit" class="btn btn-primary px-5">Login</button>
         </div>

@@ -1,0 +1,28 @@
+{%extends 'details.html'%}
+{%block content%}
+<div class="mt-5 d-flex justify-content-around">
+    <div></div>
+    <h1>Professional Details</h1>
+    <div><a type="button" class="btn btn-primary" href="/admin/dashboard"><- Go Back</a></div>
+</div>
+
+<div class="container">
+    <ul>
+        <li>Id: {{professional.id}}</li>
+        <li>Name : {{professional.name}}</li>
+        <li>Email : {{professional.email}}</li>
+        <li>Service Category : {{category.name}}</li>
+        <li>Experience (in years) : {{professional.experience}}</li>
+        <li>Total Customers : {{professional.nCustomers}}</li>
+        <li>Average Rating : {{professional.rating}}</li>
+        <li>Address : {{professional.address}}</li>
+        <li>Pincode : {{professional.pincode}}</li>
+        <li>Status : {%if professional.approval == 0%}To be Reviewed{%elif professional.approval==0%}Rejected{%elif professional.approval==-1%}Banned{%else%}Approved{%endif%}</li>
+        <li>Phone : {{professional.phone}}</li>
+    </ul>
+    <div>
+        Attached Document
+        <a href="/static/images/{{professional.doc}}">Click Here</a>
+    </div>
+</div>
+{%endblock%}

@@ -1,15 +1,15 @@
-var catBtn=document.querySelectorAll('.catBtn');
-var categories=document.querySelector('#categories');
+let servBtn=document.querySelectorAll('.servBtn');
+let proBtn=document.querySelectorAll('.proBtn');
+Category=document.querySelector('#Category');
 
-var backbtn=document.querySelectorAll('.back');
-var l=[];
-for(let c of catBtn){
+let probackbtn=document.querySelectorAll('.proback');
+let servbackbtn=document.querySelectorAll('.servback');
+let l=[];
+for(let c of servBtn){
     c.addEventListener("click",()=>{
-        categories.style.display="none";
+        Category.style.display="none";
         try{
-            console.log(c.value);
-            let servcat=document.getElementById(`${c.value}`);
-            console.dir(servcat);
+            let servcat=document.getElementById(`serv${c.value}`);
             servcat.style.display="block";
             l.push(servcat);
         }
@@ -19,12 +19,36 @@ for(let c of catBtn){
         
     })
 }
-for(let back of backbtn){
+for(let c of proBtn){
+    c.addEventListener("click",()=>{
+        Category.style.display="none";
+        try{
+            let pro=document.getElementById(`pro${c.value}`);
+            pro.style.display="block";
+            l.push(pro);
+        }
+        catch(exp){
+
+        }
+        
+    })
+}
+for(let back of servbackbtn){
     back.addEventListener("click",()=>{
-        categories.style.display="block";
+        Category.style.display="block";
         if(l.length){
             servcat=l.pop()
             servcat.style.display="none";
+        }
+        
+    })
+}
+for(let back of probackbtn){
+    back.addEventListener("click",()=>{
+        Category.style.display="block";
+        if(l.length){
+            pro=l.pop()
+            pro.style.display="none";
         }
         
     })
